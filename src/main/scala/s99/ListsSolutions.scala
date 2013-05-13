@@ -4,13 +4,20 @@ import Solutions._
 
 trait ListsSolutions {
 
-  def last[T](list: List[T]): T = ???
-  def penultimate[T](list: List[T]): T = ???
-  def nth[T](n: Int, list: List[T]): T = ???
-  def length[T](list: List[T]): Int = ???
-  def reverse[T](list: List[T]): List[T] = ???
-  def isPalindrome[T](list: List[T]): Boolean = ???
-  def flatten(list: List[Any]): List[Any] = ???
+  def last[T](list: List[T]): T = 
+    (list: @unchecked) match { case x :: Nil => x case head :: rest => last(rest) }
+  def penultimate[T](list: List[T]): T =
+    (list: @unchecked) match { case x :: y :: Nil => x case head :: rest => penultimate(rest) }
+  def nth[T](n: Int, list: List[T]): T =
+    (for((x,i) <- list.zipWithIndex if(i == n)) yield x).head
+  def length[T](list: List[T]): Int =
+    list match { case head :: rest => 1 + length(rest) case Nil => 0 }
+  def reverse[T](list: List[T]): List[T] =
+    (List[T]() /: list)((xs, x) => x :: xs)
+  def isPalindrome[T](list: List[T]): Boolean =
+    list == reverse(list)
+  def flatten(list: List[Any]): List[Any] =
+    list match { case Nil => Nil case h :: t => h match { case l: List[Any] => flatten(l) ::: flatten(t) case s => s :: flatten(t) } }
   def compress[T](list: List[T]): List[T] = ???
   def pack[T](list: List[T]): List[List[T]] = ???
   def encode[T](list: List[T]): List[(Int, T)] = ???
