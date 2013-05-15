@@ -119,7 +119,16 @@ trait ListsSolutions {
   def randomPermute[T](list: List[T]): List[T] = {
     randomSelect(list.size, list)
   }
-  def combinations[T](n: Int, list: List[T]): List[List[T]] = ???
+  def combinations[T](n: Int, list: List[T]): List[List[T]] = {
+    def r[T](rc: Int, ls : List[T]) : List[List[T]] = (rc, ls) match {
+      case (0, _) => List(Nil)
+      case (_, Nil) => Nil
+      case (_, x :: tail) =>
+        (r(rc - 1, tail) map (x :: _)) ::: r(rc, tail)
+    }
+
+    r(n, list)
+  }
   def group3[T](list: List[T]): List[List[List[T]]] = ???
   def groups[T](ns: List[Int], list: List[T]): List[List[List[T]]] = ???
   def lsort[T](list: List[List[T]]): List[List[T]] = ???
