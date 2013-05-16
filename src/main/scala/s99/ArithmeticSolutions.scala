@@ -32,8 +32,13 @@ trait ArithmeticSolutions {
       r(0, primeFactors, Nil).reverse
     }
     def primeFactorMultiplicityMap: Map[Int, Int] = primeFactorMultiplicity.toMap
-    def goldbach: (Int, Int) = ???
-
+    def goldbach: (Int, Int) = {
+		val primes = listPrimesinRange(1 to n)
+		primes.find(x=>primes.contains(n - x)) match {
+			case None => if (n.isPrime) (n,  0) else (1, n - 1)
+			case Some(x) => (x, n - x)
+		}
+	}
   }
 
   def primes: Stream[Int] = ???
@@ -47,7 +52,7 @@ trait ArithmeticSolutions {
       }
       r(2, (3 to rg.end).toList, Nil).dropWhile(_ < rg.start)
   }
-  def printGoldbachList(r: Range): List[String] = ???
-  def printGoldbachListLimited(r: Range, limit: Int): List[String] = ???
+  def printGoldbachList(r: Range): List[String] = (for (x <- r; gb = x.goldbach) yield x + " = " + gb._1 + " + " + gb._2).toList
+  def printGoldbachListLimited(r: Range, limit: Int): List[String] = (for (x <- r; gb = x.goldbach if (gb._1 > limit && gb._2 > limit)) yield x + " = " + gb._1 + " + " + gb._2).toList
 
 }
