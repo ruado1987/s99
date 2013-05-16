@@ -16,16 +16,23 @@ trait LogicAndCodesSolutions { outer =>
 
   }
   
-  def and(a: Boolean,  b: =>Boolean): Boolean = ???
-  def or(a: Boolean,   b: =>Boolean): Boolean = ???
-  def nand(a: Boolean,  b: =>Boolean): Boolean = ???
-  def nor(a: Boolean,  b: =>Boolean): Boolean = ???
-  def xor(a: Boolean,  b: =>Boolean): Boolean = ???
-  def impl(a: Boolean,  b: =>Boolean): Boolean = ???
-  def equ(a: Boolean,  b: =>Boolean): Boolean = ???
-  def not(a: Boolean) = ???
+  def and(a: Boolean,  b: =>Boolean): Boolean = if (a) b else false
+  def or(a: Boolean,   b: =>Boolean): Boolean = if (a) true else b
+  def nand(a: Boolean,  b: =>Boolean): Boolean = if (a) !b else true
+  def nor(a: Boolean,  b: =>Boolean): Boolean = if (!a && !b) true else false
+  def xor(a: Boolean,  b: =>Boolean): Boolean = if(a) !b else b
+  def impl(a: Boolean,  b: =>Boolean): Boolean = if(a && !b) false else true
+  def equ(a: Boolean,  b: =>Boolean): Boolean = or(and(a, b), and(not(a), not(b))) 
+  def not(a: Boolean) = !a
   
-  def table2(f: (Boolean, Boolean) => Boolean): String = ???
+  def table2(f: (Boolean, Boolean) => Boolean): String = {
+      Seq("A     B     result",
+        "true  " + "true  " + f(true, true).toString.padTo(6, " ").mkString,
+        "true  " + "false " + f(true, false).toString.padTo(6, " ").mkString,
+        "false " + "true  " + f(false, true).toString.padTo(6, " ").mkString,
+        "false " + "false " + f(false, false).toString.padTo(6, " ").mkString
+      ).mkString("\n")
+  }
 
   def gray(n: Int): List[String] = ???
   def huffman(list: List[(String,  Int)]): List[(String, String)] = ???
